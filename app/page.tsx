@@ -109,7 +109,7 @@ export default function Home() {
       {/* Floating Light Gradients */}
       <div className="absolute -z-10 top-1/3 left-10 w-72 h-72 bg-gradient-to-br from-blue-300 to-cyan-200 rounded-full blur-3xl opacity-40 animate-pulse"></div>
       <div className="absolute -z-10 bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-orange-300 to-pink-200 rounded-full blur-3xl opacity-40 animate-pulse delay-700"></div>
-        <h1>tanmay</h1>
+       
       <Footer />
     </div>
   )
