@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { authUtils } from "@/lib/auth"
 import Header from "@/components/Header"
+import Link from "next/link"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -18,15 +19,19 @@ export default function LoginPage() {
     setIsLoading(true)
     setError("")
 
-    const user = authUtils.login(email, password)
+    try {
+      const user = await authUtils.login(email, password)
 
-    if (user) {
-      router.push("/dashboard")
-    } else {
-      setError("Invalid email or password")
+      if (user) {
+        router.push("/dashboard")
+      } else {
+        setError("Invalid email or password")
+      }
+    } catch (error: any) {
+      setError(error.message || "Login failed. Please try again.")
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   return (
@@ -81,14 +86,23 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500 mb-3 text-center">Demo Credentials:</p>
+              <p className="text-sm text-gray-600 mb-3 text-center">Demo Credentials:</p>
               <div className="space-y-2 text-sm">
                 <div className="font-mono text-xs bg-gray-100 border border-gray-200 p-2 rounded-lg">
-                  Admin: <span className="font-semibold">admin@example.com / Admin123!</span>
+                  Admin: <span className="font-semibold">admin@smartdrishti.com / Admin@123</span>
                 </div>
                 <div className="font-mono text-xs bg-gray-100 border border-gray-200 p-2 rounded-lg">
-                  Student: <span className="font-semibold">student@example.com / Student123!</span>
+                  User: <span className="font-semibold">user@smartdrishti.com / User@123</span>
                 </div>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-600">
+                  Don't have an account?{" "}
+                  <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    Sign up here
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi Level Grid</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Project Levels</h1>
+
+    <h2>Basic (50 Levels)</h2>
+    <div class="level-grid" id="basicGrid"></div>
+
+    <h2>Intermediate (30 Levels)</h2>
+    <div class="level-grid" id="intermediateGrid"></div>
+
+    <h2>Advanced (20 Levels)</h2>
+    <div class="level-grid" id="advancedGrid"></div>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="levelModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle">Level</h2>
+      <p>Play this level here...</p>
+      <button id="completeBtn">Complete</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

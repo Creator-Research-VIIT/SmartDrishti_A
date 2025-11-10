@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import type { Project } from "@/lib/types"
 import { Plus } from "lucide-react"
+import { createProject } from "@/lib/api"
+import { authUtils } from "@/lib/auth"
 
 interface AddProjectFormProps {
   onAdd: (project: Project) => void
@@ -24,38 +26,69 @@ export default function AddProjectForm({ onAdd }: AddProjectFormProps) {
     objectives: [],
   })
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.name || !formData.description) {
       alert("Please fill in all required fields")
       return
     }
 
-    const newProject: Project = {
-      id: `proj_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: formData.name,
-      description: formData.description,
-      difficulty: formData.difficulty as "Easy" | "Intermediate" | "Advanced",
-      section: formData.section || 1,
-      sectionName: formData.sectionName || "Basics",
-      deviceId: formData.deviceId || "",
-      hidden: formData.hidden || false,
-      objectives: formData.objectives || [],
-      apiKey: undefined,
-      apiKeyVisible: false,
+    const token = authUtils.getToken()
+    if (!token) {
+      alert("You must be logged in to create a project")
+      return
     }
 
-    onAdd(newProject)
-    setFormData({
-      name: "",
-      description: "",
-      difficulty: "Easy",
-      section: 1,
-      sectionName: "Basics",
-      deviceId: "",
-      hidden: false,
-      objectives: [],
-    })
-    setIsOpen(false)
+    try {
+      // Prepare project data for backend
+      const projectData = {
+        name: formData.name,
+        description: formData.description,
+        difficulty: formData.difficulty?.toLowerCase() || "easy", // Backend expects lowercase
+        section: formData.section || 1,
+        device_id: formData.deviceId || "",
+        objectives: formData.objectives || [],
+        hidden: formData.hidden || false,
+      }
+
+      // Send to backend
+      const response = await createProject(token, projectData)
+
+      if (response.success) {
+        // Map backend response to frontend Project type
+        const newProject: Project = {
+          id: response.project.id,
+          name: response.project.name,
+          description: response.project.description,
+          difficulty: (response.project.difficulty.charAt(0).toUpperCase() + response.project.difficulty.slice(1)) as "Easy" | "Intermediate" | "Advanced",
+          section: response.project.section,
+          sectionName: `Section ${response.project.section}`,
+          deviceId: response.project.device_id || "",
+          hidden: response.project.hidden || false,
+          objectives: response.project.objectives || [],
+          apiKey: undefined,
+          apiKeyVisible: false,
+        }
+
+        onAdd(newProject)
+        alert("Project created successfully!")
+        
+        // Reset form
+        setFormData({
+          name: "",
+          description: "",
+          difficulty: "Easy",
+          section: 1,
+          sectionName: "Basics",
+          deviceId: "",
+          hidden: false,
+          objectives: [],
+        })
+        setIsOpen(false)
+      }
+    } catch (error: any) {
+      console.error("Failed to create project:", error)
+      alert(`Failed to create project: ${error.message}`)
+    }
   }
 
   return (

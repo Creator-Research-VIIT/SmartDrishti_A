@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartDrishti - Water Level Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>💧 SmartDrishti - Water Level Detector</h1>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+
+    <!-- API Settings Card -->
+    <div class="api-card">
+      <h2>API Settings</h2>
+      <div class="api-fields">
+        <input type="text" id="apiKeyInput" placeholder="API Key">
+        <input type="text" id="templateIdInput" placeholder="Template ID">
+      </div>
+      <div class="api-actions">
+        <button onclick="saveAPISettings()">Save</button>
+        <button onclick="testHTTPData()">Test HTTP Data 🔄</button>
+      </div>
+      <small id="apiStatus" class="muted"></small>
+    </div>
+
+    <!-- Tank Card -->
+    <div class="tank-card">
+      <h2>Water Tank</h2>
+      <div class="tank">
+        <div id="water"></div>
+      </div>
+      <div id="currentLevel">0%</div>
+      <div id="emoji">🤔</div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="chart-card">
+      <h2>Water Level Trend</h2>
+      <canvas id="waterChart"></canvas>
+    </div>
+
+    <!-- History Card -->
+    <div class="history-card">
+      <h2>Water Level History</h2>
+      <ul id="historyList"></ul>
+    </div>
+
+    <!-- Input Card -->
+    <div class="input-card">
+      <h2>Set Water Level</h2>
+      <input type="number" id="levelInput" placeholder="Enter % (0-100)">
+      <br>
+      <button onclick="setLevel()">Update Tank 🚀</button>
+    </div>
+  </div>
+
+  <!-- SNAPSHOT BUTTON -->
+  <div class="snapshot-btn">
+    <button onclick="downloadPDF()">📥 Download Report (PDF)</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

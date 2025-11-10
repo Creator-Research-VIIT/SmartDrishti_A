@@ -1,0 +1,143 @@
+[
+  {
+    "id": 1,
+    "title": "Water Level Detector",
+    "description": "Monitor and visualize water level in a tank using sensors and real-time data visualization.",
+    "level": 1,
+    "difficulty": "Beginner",
+    "metadata": {
+      "blockDiagram": "/uploads/diagram1.png",
+      "pinout": "VCC: 5V, GND: Ground, OUT: Analog Pin A0",
+      "components": ["Water Level Sensor", "Arduino Uno", "LCD Display", "Resistors"],
+      "pdfLink": "/uploads/waterlevel.pdf"
+    },
+    "blocks": [
+      {
+        "type": "api",
+        "fields": [
+          { "label": "API Key", "value": "", "key": "apiKey" },
+          { "label": "Template ID", "value": "", "key": "templateId" }
+        ]
+      },
+      {
+        "type": "custom-block",
+        "component": "TankGauge",
+        "config": { "variable": "water_level", "max": 100, "min": 0 }
+      },
+      {
+        "type": "graph",
+        "config": {
+          "title": "Water Level Trend",
+          "variables": ["water_level"],
+          "chartType": "line",
+          "xAxis": "Time",
+          "yAxis": "Level (%)"
+        }
+      },
+      {
+        "type": "history",
+        "config": {
+          "variable": "water_level",
+          "title": "History",
+          "maxEntries": 10
+        }
+      },
+      {
+        "type": "entry",
+        "config": {
+          "label": "Set Water Level",
+          "placeholder": "Enter level (0-100)",
+          "variable": "water_level"
+        }
+      }
+    ],
+    "unlocked": true,
+    "order": 1
+  },
+  {
+    "id": 2,
+    "title": "Temperature Monitoring System",
+    "description": "Track temperature changes over time with live graphs and alerts.",
+    "level": 2,
+    "difficulty": "Intermediate",
+    "metadata": {
+      "blockDiagram": "/uploads/temp-diagram.png",
+      "pinout": "VCC: 3.3V, GND: Ground, DATA: Digital Pin 2",
+      "components": ["DHT22 Sensor", "Arduino Nano", "OLED Display"],
+      "pdfLink": "/uploads/temperature.pdf"
+    },
+    "blocks": [
+      {
+        "type": "api",
+        "fields": [
+          { "label": "API Key", "value": "", "key": "apiKey" },
+          { "label": "Template ID", "value": "", "key": "templateId" }
+        ]
+      },
+      {
+        "type": "graph",
+        "config": {
+          "title": "Temperature Over Time",
+          "variables": ["temperature", "humidity"],
+          "chartType": "line",
+          "xAxis": "Time",
+          "yAxis": "Value"
+        }
+      },
+      {
+        "type": "history",
+        "config": {
+          "variable": "temperature",
+          "title": "Temperature History",
+          "maxEntries": 15
+        }
+      }
+    ],
+    "unlocked": true,
+    "order": 2
+  },
+  {
+    "id": 3,
+    "title": "Motion Detection Dashboard",
+    "description": "Detect motion and visualize activity patterns with bar charts and statistics.",
+    "level": 3,
+    "difficulty": "Advanced",
+    "metadata": {
+      "blockDiagram": "/uploads/motion-diagram.png",
+      "pinout": "VCC: 5V, GND: Ground, OUT: Digital Pin 3",
+      "components": ["PIR Sensor", "ESP32", "Buzzer"],
+      "pdfLink": "/uploads/motion.pdf"
+    },
+    "blocks": [
+      {
+        "type": "api",
+        "fields": [
+          { "label": "API Key", "value": "", "key": "apiKey" },
+          { "label": "Template ID", "value": "", "key": "templateId" }
+        ]
+      },
+      {
+        "type": "graph",
+        "config": {
+          "title": "Motion Events",
+          "variables": ["motion_detected"],
+          "chartType": "bar",
+          "xAxis": "Time",
+          "yAxis": "Events"
+        }
+      },
+      {
+        "type": "history",
+        "config": {
+          "variable": "motion_detected",
+          "title": "Motion History",
+          "maxEntries": 20
+        }
+      }
+    ],
+    "unlocked": true,
+    "order": 3
+  }
+]
+
+

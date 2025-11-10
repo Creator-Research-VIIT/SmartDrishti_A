@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "Admin@123",
+    "role": "admin",
+    "email": "admin@portal.com",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "username": "student1",
+    "password": "Student@123",
+    "role": "student",
+    "email": "student1@portal.com",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]
+
+

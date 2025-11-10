@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { authUtils } from "@/lib/auth"
 import { storageUtils } from "@/lib/localStorage"
 import { progressUtils } from "@/lib/progress"
+import { getProjects } from "@/lib/api"
 import type { Project, User } from "@/lib/types"
 import Header from "@/components/Header"
 import ProjectCard from "@/components/admin/project-card"
@@ -29,20 +30,58 @@ export default function AdminPage() {
       return
     }
 
+    // Load users from localStorage (for now)
     authUtils.initializeUsers()
     const allUsers = storageUtils.getUsers()
-    const allProjects = storageUtils.getProjects()
-
     setUsers(allUsers)
-    setProjects(allProjects)
     if (allUsers.length > 0) {
       setSelectedUserId(allUsers[0].id)
     }
+
+    // Load projects from backend
+    loadProjects()
   }, [router])
+
+  const loadProjects = async () => {
+    const token = authUtils.getToken()
+    if (!token) {
+      // Fallback to localStorage if not logged in
+      const allProjects = storageUtils.getProjects()
+      setProjects(allProjects)
+      return
+    }
+
+    try {
+      const response = await getProjects(token)
+      if (response.success && response.projects) {
+        // Map backend projects to frontend format
+        const mappedProjects: Project[] = response.projects.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          difficulty: (p.difficulty.charAt(0).toUpperCase() + p.difficulty.slice(1)) as "Easy" | "Intermediate" | "Advanced",
+          section: p.section,
+          sectionName: `Section ${p.section}`,
+          deviceId: p.device_id || "",
+          hidden: p.hidden || false,
+          objectives: p.objectives || [],
+          apiKey: undefined,
+          apiKeyVisible: false,
+        }))
+        setProjects(mappedProjects)
+      }
+    } catch (error) {
+      console.error("Failed to load projects from backend:", error)
+      // Fallback to localStorage
+      const allProjects = storageUtils.getProjects()
+      setProjects(allProjects)
+    }
+  }
 
   const handleAddProject = (newProject: Project) => {
     const updated = [...projects, newProject]
     setProjects(updated)
+    // Also save to localStorage for offline access
     storageUtils.setProjects(updated)
   }
 

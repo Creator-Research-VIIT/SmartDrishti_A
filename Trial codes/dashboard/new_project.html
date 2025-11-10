@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDrishti_new_project</title>
+    <link rel="stylesheet" href="new_project.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>SmartDrishti</h1>
+        <div class="nav-links">
+            <a href="projects.html">Projects</a>
+            <a href="#">Commercial Use</a>
+            
+            <!-- Profile Section -->
+            <div class="profile-menu">
+                <img src="../images/profile.jpg" alt="Profile" class="profile-pic">
+                <div class="dropdown">
+                    <a href="#">View Profile</a>
+                    <a href="#">Settings</a>
+                    <a href="../index.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-container">
+        <h2>Create New Project</h2>
+        <form id="projectForm">
+            <!-- Project Name -->
+            <label for="projectName">Name of Project</label>
+            <input type="text" id="projectName" name="projectName" required>
+
+            <!-- Description -->
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+
+            <!-- Variables Required -->
+            <label for="variableCount">Variables Required (max 6)</label>
+            <input type="number" id="variableCount" name="variableCount" min="1" max="6" required>
+
+            <!-- Dynamic Variables Section -->
+            <div id="variablesContainer"></div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn">Create Channel</button>
+        </form>
+    </div>
+
+    <script src="new_project.js"></script>    
+</body>
+</html>
