@@ -1,4 +1,5 @@
 const API_BASE_URL = "http://localhost:5000"; // backend base URL
+export const API = process.env.NEXT_PUBLIC_API_URL;
 
 // ==========================================
 // Authentication APIs
